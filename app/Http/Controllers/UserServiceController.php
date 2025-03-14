@@ -12,11 +12,11 @@ class UserServiceController extends Controller
      */
     public function index()
     {
-       $userService= UserService::all();
+       $userService = UserService::all();
        return response()->json([
-        'status' => 'success',
-        'data' => $userService
-    ], 200);
+           'status' => 'success',
+           'data' => $userService
+       ], 200);
     }
 
     /**
@@ -29,7 +29,9 @@ class UserServiceController extends Controller
             'email' => 'required|string|max:80',
             'password' => 'required|string|max:30',
         ]);
-        $userService=UserService::create($request->all());
+
+        $userService = UserService::create($request->all());
+
         return response()->json([
             'status' => 'success',
             'data' => $userService
@@ -39,9 +41,13 @@ class UserServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserService $userService)
+    public function show($id)
     {
-        //
+        $userService = UserService::findOrFail($id);
+        return response()->json([
+            'status' => 'success',
+            'data' => $userService
+        ], 200);
     }
 
     /**
@@ -49,7 +55,19 @@ class UserServiceController extends Controller
      */
     public function update(Request $request, UserService $userService)
     {
-        //
+        $request->validate([
+            'name' => 'string|max:30',
+            'email' => 'string|max:80',
+            'password' => 'string|max:30',
+        ]);
+
+        $userService->update($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Actualizado correctamente',
+            'data' => $userService
+        ], 200);
     }
 
     /**
@@ -57,6 +75,11 @@ class UserServiceController extends Controller
      */
     public function destroy(UserService $userService)
     {
-        //
+        $userService->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'UserService eliminado correctamente.'
+        ], 200);
     }
 }
