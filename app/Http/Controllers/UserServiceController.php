@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class UserServiceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a lissing of the resource.
      */
     public function index()
     {
